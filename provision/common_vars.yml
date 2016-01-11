@@ -16,7 +16,6 @@ php_packages:
   - php-pear
   - php-opcache
   - php-json
-  - php-pecl-memcached
   - php-pecl-zip
   - php-pecl-xdebug
 php_use_managed_ini: False
