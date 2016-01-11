@@ -1,0 +1,9 @@
+---
+- name: PHP | Upload custom php.ini to /etc/php.d/
+  copy: src=zzmyphp.ini dest=/etc/php.d/zzmyphp.ini
+  notify:
+    - restart apache
+
+- name: PHP | Install composer command
+  shell: curl -sS https://getcomposer.org/installer
+          | php -- --install-dir=/usr/bin --filename=composer creates=/usr/bin/composer

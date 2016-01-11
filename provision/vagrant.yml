@@ -1,0 +1,25 @@
+---
+# ansible-galaxy install ANXS.postgresql geerlingguy.apache geerlingguy.repo-epel geerlingguy.repo-remi geerlingguy.php -p roles
+- hosts: localhost
+  become: yes
+  vars:
+    application_root: "/vagrant"
+    application_document_root: "{{ application_root }}/public"
+    postgresql_users:
+      - name: vagrant
+        pass: pass
+    postgresql_databases:
+      - name: app
+        owner: vagrant
+      - name: app_test
+        owner: vagrant
+    apache_vhosts:
+      - servername: "localhost"
+        documentroot: "{{ application_document_root }}"
+  vars_files:
+    - common_vars.yml
+  roles:
+    #- base
+    - ANXS.postgresql
+    - geerlingguy.apache
+    - php

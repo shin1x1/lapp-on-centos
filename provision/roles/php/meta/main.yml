@@ -1,0 +1,5 @@
+---
+dependencies:
+  - geerlingguy.apache
+  - geerlingguy.repo-remi
+  - geerlingguy.php

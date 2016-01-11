@@ -1,0 +1,24 @@
+---
+postgresql_version: 9.5
+postgresql_encoding: 'UTF-8'
+postgresql_locale: 'C'
+php_enablerepo: remi-php70,epel
+php_packages:
+  - php
+  - php-cli
+  - php-process
+  - php-pdo
+  - php-pgsql
+  - php-mbstring
+  - php-mcrypt
+  - php-devel
+  - php-common
+  - php-pear
+  - php-opcache
+  - php-json
+  - php-pecl-memcached
+  - php-pecl-zip
+  - php-pecl-xdebug
+php_use_managed_ini: False
+php_opcache_enabled_in_ini: True
+
