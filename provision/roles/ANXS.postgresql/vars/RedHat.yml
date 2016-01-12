@@ -10,4 +10,4 @@ postgresql_varlib_directory_name: "pgsql"
 postgresql_bin_directory: "/usr/pgsql-{{postgresql_version}}/bin"
 
 postgresql_unix_socket_directories:
-  - /var/run/postgresql
+  - /tmp
