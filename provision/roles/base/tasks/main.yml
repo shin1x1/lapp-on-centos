@@ -1,26 +1,29 @@
 ---
 - name: Base | Set locale
   command: localectl set-locale {{ base_locale }}
-  when:
-    ansible_distribution_major_version >= 7
+  when: ansible_distribution_major_version == '7'
 
 - name: Base | Set locale to /etc/sysconfig/i18n
   replace:
     dest=/etc/sysconfig/i18n
-    regexp='^LANG={{ base_locale }}'
-    replace='LANG={{ base_locale }}'
-  when:
-    ansible_distribution_major_version < 7
+    regexp='^LANG="en_US\.UTF-8"'
+    replace='LANG="{{ base_locale }}"'
+  when: ansible_distribution_major_version == '6'
 
 - name: Base | Set timezone
   command: timedatectl set-timezone {{ base_timezone }}
-  when:
-    ansible_distribution_major_version >= 7
+  when: ansible_distribution_major_version == '7'
 
-- name: Base | Set timezone
-  file: src=/usr/share/zoneinfo/{{ base_timezone }}  dest=/etc/localtime state=link force=yes
-  when:
-    ansible_distribution_major_version >= 7
+- name: Base | Set timezone to /etc/sysconfig/clock
+  replace:
+    dest=/etc/sysconfig/clock
+    regexp='^ZONE="UTC"'
+    replace='ZONE="{{ base_timezone }}"'
+  when: ansible_distribution_major_version == '6'
+
+- name: Base | Execute tzdata-update
+  command: sudo /usr/sbin/tzdata-update
+  when: ansible_distribution_major_version == '6'
 
 - name: Base | Install basic packages
   yum: name={{ item }} state=present
