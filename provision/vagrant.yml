@@ -14,12 +14,14 @@
       - name: app_test
         owner: vagrant
     apache_vhosts:
-      - servername: "localhost"
+      - servername: localhost
         documentroot: "{{ application_document_root }}"
+    php_env: development
+    php_xdebug_remote_host: 192.168.34.1
   vars_files:
     - common_vars.yml
   roles:
-    #- base
-    - ANXS.postgresql
+    - base
+    - postgresql
     - geerlingguy.apache
     - php
