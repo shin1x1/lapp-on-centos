@@ -1,0 +1,20 @@
+date.timezone = Asia/Tokyo
+
+; error
+{% if php_env == 'development' %}
+display_errors = On
+display_startup_errors = On
+{% else %}
+display_errors = Off
+display_startup_errors = Off
+{% endif %}
+error_reporting = E_ALL
+log_errors = On
+error_log = /var/log/php.log
+
+{% if php_xdebug_remote_host != '' %}
+; xdebug
+xdebug.remote_enable = On
+xdebug.remote_autostart= On
+xdebug.remote_host = {{ php_xdebug_remote_host }}
+{% endif %}

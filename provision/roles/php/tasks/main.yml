@@ -1,8 +1,21 @@
 ---
 - name: PHP | Upload custom php.ini to /etc/php.d/
-  copy: src=zzmyphp.ini dest=/etc/php.d/zzmyphp.ini
+  template: src=zzmyphp.ini.j2 dest=/etc/php.d/zzmyphp.ini
   notify:
     - restart apache
+
+- name: PHP | Create /var/log/php.log
+  file: path=/var/log/php.log state=touch mode=0666
+
+- name: PHP | Upload log rotate setting
+  copy: src=logrotate.d/php dest=/etc/logrotate.d/php owner=root group=root mode=0644
+
+- name: PHP | Add PHP_IDE_CONFIG to ~/.bashrc
+  lineinfile:
+    dest=/home/vagrant/.bashrc
+    line='export PHP_IDE_CONFIG="serverName={{ php_xdebug_remote_host }}"'
+  when: php_xdebug_remote_host != ''
+
 
 - name: PHP | Install composer command
   shell: curl -sS https://getcomposer.org/installer

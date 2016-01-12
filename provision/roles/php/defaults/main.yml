@@ -1,0 +1,3 @@
+---
+php_env: development
+php_xdebug_remote_host: ""
