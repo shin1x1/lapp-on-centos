@@ -1,4 +1,15 @@
 ---
+- name: Base | Install basic packages
+  yum: name={{ item }} state=present
+  with_items:
+    - libselinux-python 
+    - vim
+    - git
+    - ntp
+
+- name: Base | Ensure nptd started and enabled
+  service: name=ntpd state=started enabled=yes
+
 - name: Base | Set locale
   command: localectl set-locale {{ base_locale }}
   when: ansible_distribution_major_version == '7'
@@ -24,13 +35,3 @@
 - name: Base | Execute tzdata-update
   command: sudo /usr/sbin/tzdata-update
   when: ansible_distribution_major_version == '6'
-
-- name: Base | Install basic packages
-  yum: name={{ item }} state=present
-  with_items:
-    - vim
-    - git
-    - ntp
-
-- name: Base | Ensure nptd started and enabled
-  service: name=ntpd state=started enabled=yes

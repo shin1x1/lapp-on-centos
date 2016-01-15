@@ -19,10 +19,16 @@ Vagrant.configure(2) do |config|
 
   config.vm.synced_folder ".", "/vagrant", mount_options: ["dmode=777", "fmode=666"]
 
-  config.vm.provision "shell", inline: <<-SHELL
-    #yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
-    yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
-    yum -y install ansible libselinux-python
-    cd /vagrant/provision; ansible-playbook -c local vagrant.yml
-  SHELL
+  config.vm.provision :ansible_local do |ansible|
+    ansible.playbook       = "provision/vagrant.yml"
+    ansible.verbose        = true
+    ansible.install        = true
+    ansible.limit          = "all"
+  end
+#  config.vm.provision "shell", inline: <<-SHELL
+#    #yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+#    yum -y install https://dl.fedoraproject.org/pub/epel/epel-release-latest-6.noarch.rpm
+#    yum -y install ansible libselinux-python
+#    cd /vagrant/provision; ansible-playbook -c local vagrant.yml
+#  SHELL
 end
